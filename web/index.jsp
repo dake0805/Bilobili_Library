@@ -2,62 +2,87 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en" class="no-js">
 <head>
-  <title>Login</title>
+    <title>Login</title>
 
-  <meta charset="UTF-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>login</title>
-  <link rel="stylesheet" type="text/css" href="css/normalize.css"/>
-  <link rel="stylesheet" type="text/css" href="css/demo.css"/>
-  <!--必要样式-->
-  <link rel="stylesheet" type="text/css" href="css/component.css"/>
-  <!--[if IE]>
-  <script src="js/html5.js"></script>
-  <![endif]-->
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="css/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="css/demo.css"/>
+    <!--必要样式-->
+    <link rel="stylesheet" type="text/css" href="css/component.css"/>
+    <!--[if IE]>
+    <script src="js/html5.js"></script>
+    <![endif]-->
 </head>
 
 <body>
 <div class="container demo-1">
-  <div class="content">
-    <div id="large-header" class="large-header">
-      <canvas id="demo-canvas"></canvas>
-      <div class="logo_box">
-        <h3>欢迎你</h3>
-        <form action="login" name="f" method="post">
-          <div class="input_outer">
-            <span class="u_user"></span>
-            <input name="account" class="text" style="color: #FFFFFF !important" type="text"
-                   placeholder="请输入账户">
-          </div>
-          <div class="input_outer">
-            <span class="us_uer"></span>
-            <input name="password" class="text"
-                   style="color: #FFFFFF !important; position:absolute; z-index:100;" value=""
-                   type="password" placeholder="请输入密码">
-          </div>
-          <div class="mb2">
-            <!--                        <a class="act-but submit" href="javascript:;" style="color: #FFFFFF">登录</a>-->
-            <button type="submit" class="act-but submit" id="button" style="color: #FFFFFF; width: 330px">登陆</button>
-          </div>
-        </form>
-      </div>
+    <div class="content">
+        <div id="large-header" class="large-header" >
+            <canvas id="demo-canvas"></canvas>
+            <!-- back -->
+            <div style="width: 100px; height: 37px; position: absolute; left: 5%; top: 2%">
+                <a href="homePage.do">
+                    <div style="width: 37%; height: 100%; float: left">
+                        <img src="img/back.png" style="width: 100%; height: 100%">
+                    </div>
+                    <p style="font-size: 30px; margin: 0px; float: right; width: 63%; color: white">
+                        <strong>BACK</strong>
+                    </p>
+                </a>
+            </div>
+            <div class="logo_box">
+                <div style="width: 330px; height: 138px; margin-bottom: 30px">
+                    <img src="img/logo.png" style="width: 100%; height: 100%">
+                </div>
+                <form action="login" name="f" method="post">
+                    <div class="input_outer">
+                        <span class="u_user"></span>
+                        <input name="account" class="text" style="color: #FFFFFF !important" type="text"
+                               placeholder="Your account">
+                    </div>
+                    <div class="input_outer">
+                        <span class="us_uer"></span>
+                        <input name="password" class="text"
+                               style="color: #FFFFFF !important; position:absolute; z-index:100;" value=""
+                               type="password" placeholder="Your password">
+                    </div>
+                    <div class="mb2">
+                        <button type="submit" class="act-but submit" id="button" style="color: #FFFFFF; width: 330px">
+                            <strong>Login</strong>
+                        </button>
+                        <a href="forget.jsp">
+                            <button type="button" class="act-but submit" id="forget" style="background: #13BDCE; color: #FFFFFF; width: 330px">
+                                <strong>Forget Password</strong>
+                            </button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div><!-- /container -->
 <%
-  session = request.getSession();
-  String account = (String)session.getAttribute("account");
-  if(account !=null)
-  {
-    response.sendRedirect("login");
-  }
+    session = request.getSession();
+    String account = (String) session.getAttribute("account");
+    if (account != null) {
+        response.sendRedirect("login");
+    }
 %>
 <script>
-  var error = '<%=request.getParameter("error")%>';
-  if(error=='yes'){
-    alert("Account or password wrong!");
-  }
+    var error = '<%=request.getParameter("error")%>';
+    if (error == 'yes') {
+        alert("Account or password wrong!");
+    }
+    var forget = '<%=request.getParameter("forget")%>';
+    if (forget == 'yes') {
+        alert("We have send a email and you can retire your password!");
+    }
+    if(forget=='done'){
+        alert("You have successfully changed your password!");
+    }
 </script>
 <script src="js/TweenLite.min.js"></script>
 <script src="js/EasePack.min.js"></script>

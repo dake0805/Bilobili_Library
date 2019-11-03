@@ -46,7 +46,7 @@
             <!-- Breadcrumb-->
             <div class="breadcrumb-holder container-fluid">
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="admin.jsp">Home</a></li>
+                    <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
                     <li class="breadcrumb-item active">Librarian Add</li>
                 </ul>
             </div>
@@ -60,6 +60,8 @@
                                     <label class="col-sm-3 form-control-label">Account</label>
                                     <div class="col-sm-9">
                                         <input id="inputHorizontalSuccess" name="account"
+                                               required oninvalid="setCustomValidity('Please enter relevant content');"
+                                               oninput="setCustomValidity('');"
                                                class="form-control form-control-success">
                                         <%--                                        <small class="form-text">Example help text that remains unchanged.</small>--%>
                                     </div>
@@ -67,7 +69,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 form-control-label">Password</label>
                                     <div class="col-sm-9">
-                                        <input id="inputHorizontalWarning" name="password" value="00010001"
+                                        <input id="inputHorizontalWarning" name="password"
+                                               value="00010001"
+                                               required oninvalid="setCustomValidity('Please enter relevant content');"
+                                               oninput="setCustomValidity('');"
                                                class="form-control form-control-warning">
                                         <%--                                        <small class="form-text">Example help text that remains unchanged.</small>--%>
                                     </div>
@@ -76,6 +81,8 @@
                                     <label class="col-sm-3 form-control-label">Name</label>
                                     <div class="col-sm-9">
                                         <input id="inputHorizontalWarning" name="name"
+                                               required oninvalid="setCustomValidity('Please enter relevant content');"
+                                               oninput="setCustomValidity('');"
                                                class="form-control form-control-warning">
                                         <%--                                        <small class="form-text">Example help text that remains unchanged.</small>--%>
                                     </div>
@@ -84,13 +91,16 @@
                                     <label class="col-sm-3 form-control-label">Phone</label>
                                     <div class="col-sm-9">
                                         <input id="inputHorizontalWarning" name="phone"
+                                               required minlength="11" maxlength="11"
+                                               required oninvalid="setCustomValidity('Please enter 11 digits');"
+                                               oninput="setCustomValidity('');"
                                                class="form-control form-control-warning">
                                         <%--                                        <small class="form-text">Example help text that remains unchanged.</small>--%>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-9 offset-sm-3">
-                                        <input type="submit" value="Signin" class="btn btn-primary">
+                                        <input type="submit" value="Sign in" class="btn btn-primary">
                                     </div>
                                 </div>
                             </form>
@@ -134,19 +144,7 @@
                 <%--                </div>--%>
             </section>
             <!-- Page Footer-->
-            <footer class="main-footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p>Copyright &copy; 2019.Company name All rights reserved.More Templates test</p>
-                        </div>
-                        <div class="col-sm-6 text-right">
-                            <p></p>
-                            <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <jsp:include page="footer.jsp" flush="true"></jsp:include>
         </div>
     </div>
 </div>
@@ -154,7 +152,7 @@
     var info = '<%=request.getParameter("info")%>';
     if (info == 'success') {
         alert("successfully add!");
-    }else if(info == 'erroe'){
+    } else if (info == 'erroe') {
         alert("add failure because of have the same account!");
     }
 </script>

@@ -1,12 +1,10 @@
 package servlet;
 
-import dao.AdminDao;
-import dao.AdminSettingsDao;
-import dao.LibrarianDao;
-import dao.LoginDao;
+import dao.*;
 import entity.Admin;
 import entity.AdminSettings;
 import entity.Librarian;
+import entity.Reader;
 import utils.UserType;
 
 import javax.servlet.ServletException;
@@ -54,10 +52,19 @@ public class LoginServlet extends HttpServlet {
 
             LibrarianDao librarianDao = new LibrarianDao();
             Librarian librarian = librarianDao.info(account);
+            session.setAttribute("account",librarian.getAccount());
             session.setAttribute("name", librarian.getName());
+            session.setAttribute("type", librarian.getType());
 
         } else if (userType == UserType.Reader) {
-            //TODO建立reader相应的dao和entity
+            ReaderDao readerDao = ReaderDao.getInstance();
+            Reader reader = readerDao.info(account);
+            session.setAttribute("name", reader.getName());
+            session.setAttribute("email", reader.getEmail());
+            session.setAttribute("securityDeposit", reader.getDeposit());
+            session.setAttribute("type", reader.getType());
+            session.setAttribute("registerTime", reader.getRegister_time());
+            session.setAttribute("borrowing_count", reader.getBorrowing_count());
         }
         if (userType != UserType.None) {
 
@@ -68,13 +75,13 @@ public class LoginServlet extends HttpServlet {
 
         switch (userType) {
             case Admin:
-                response.sendRedirect("admin.jsp");
+                response.sendRedirect("AdminNoticeHome.do");
                 break;
             case Librarian:
-                response.sendRedirect("librarian.jsp");
+                response.sendRedirect("LibrarianNoticeHome.do");
                 break;
             case Reader:
-                response.sendRedirect("reader.jsp");
+                response.sendRedirect("ReaderNoticeHome.do");
                 break;
             case None:
                 response.sendRedirect("index.jsp?error=yes");

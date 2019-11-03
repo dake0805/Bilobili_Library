@@ -39,9 +39,7 @@
     <jsp:include page="header_template.jsp" flush="true"></jsp:include>
     <div class="page-content d-flex align-items-stretch">
         <!-- Side Navbar -->
-        <nav class="side-navbar">
-            <jsp:include page="librarian_side.jsp"></jsp:include>
-        </nav>
+        <jsp:include page="librarian_side.jsp"></jsp:include>
         <div class="content-inner">
             <!-- Page Header 黑色粗体title-->
             <header class="page-header">
@@ -52,7 +50,7 @@
             <!-- Breadcrumb-->
             <div class="breadcrumb-holder container-fluid">
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="admin.jsp">Home</a></li>
+                    <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
                     <li class="breadcrumb-item active">Reader Add</li>
                 </ul>
             </div>
@@ -63,11 +61,14 @@
                     <div class="card">
                         <div class="card-body">
                             <p>Sign up for a new reader.</p>
-                            <form class="form-horizontal" action="reader_add.do" method="post">
+                            <form class="form-horizontal" action="ReaderAdd.do" method="post">
                                 <div class="form-group row">
                                     <label class="col-sm-3 form-control-label">Account</label>
                                     <div class="col-sm-9">
-                                        <input id="inputHorizontalSuccess" name="account"
+                                        <input
+                                                id="inputHorizontalSuccess" name="account"
+                                               required minlength="11" maxlength="11"
+                                               required oninvalid="setCustomValidity('Please enter 11 digits');" oninput="setCustomValidity('');"
                                                class="form-control form-control-success">
                                         <%--<small class="form-text">Example help text that remains unchanged.</small>--%>
                                     </div>
@@ -75,7 +76,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 form-control-label">Password</label>
                                     <div class="col-sm-9">
-                                        <input id="inputHorizontalWarning" name="password" value=""
+                                        <input id="inputHorizontalWarning" name="password" value="12345678"
                                                class="form-control form-control-warning">
                                         <%--<small class="form-text">Example help text that remains unchanged.</small>--%>
                                     </div>
@@ -84,6 +85,7 @@
                                     <label class="col-sm-3 form-control-label">Name</label>
                                     <div class="col-sm-9">
                                         <input id="inputHorizontalWarning" name="name"
+                                               required
                                                class="form-control form-control-warning">
                                         <%--<small class="form-text">Example help text that remains unchanged.</small>--%>
                                     </div>
@@ -91,15 +93,21 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 form-control-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input id="inputHorizontalWarning" name="email"
-                                               class="form-control form-control-warning">
+                                        <input type="email"
+                                                id="inputHorizontalWarning" name="email"
+                                               required oninvalid="setCustomValidity('Please include @ in your email address');" oninput="setCustomValidity('');"
+                                               class="form-control form-control-success">
+
                                         <%--<small class="form-text">Example help text that remains unchanged.</small>--%>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 form-control-label">Deposit</label>
                                     <div class="col-sm-9">
-                                        <input id="inputHorizontalWarning" name="deposit"
+                                        <input  type="number"
+                                                value="300"
+                                                id="inputHorizontalWarning" name="deposit"
+                                                required
                                                class="form-control form-control-warning">
                                         <%--<small class="form-text">Example help text that remains unchanged.</small>--%>
                                     </div>
@@ -116,19 +124,7 @@
             </section>
 
             <!-- Page Footer-->
-            <footer class="main-footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p>Copyright &copy; 2019.Mandarin Library Automation all rights reserved.</p>
-                        </div>
-                        <div class="col-sm-6 text-right">
-                            <p></p>
-                            <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <jsp:include page="footer.jsp" flush="true"></jsp:include>
 
         </div>
     </div>
@@ -140,6 +136,7 @@
     var info = '<%=request.getParameter("info")%>';
     if (info == 'success') {
         alert("Successfully add!");
+        window.location.href = "ReaderList.do";
     } else if (info == 'error') {
         alert("Add failure because of have the same account!");
     }

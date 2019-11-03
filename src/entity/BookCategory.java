@@ -1,12 +1,12 @@
 package entity;
 
 public class BookCategory {
-    public BookCategory(String category, String floor) {
+    public BookCategory(String category, int floor, String shelf) {
         this.category = category;
-        this.floor = floor;
     }
 
-    public BookCategory(){}
+    public BookCategory() {
+    }
 
     public String getCategory() {
         return category;
@@ -16,14 +16,23 @@ public class BookCategory {
         this.category = category;
     }
 
-    public String getFloor() {
+    public int getFloor() {
         return floor;
     }
 
-    public void setFloor(String floor) {
+    public void setFloor(int floor) {
         this.floor = floor;
     }
 
+    public String getShelf() {
+        return shelf;
+    }
+
+    public void setShelf(String shelf) {
+        this.shelf = shelf;
+    }
+
     private String category;
-    private String floor;
+    private int floor;
+    private String shelf;
 }

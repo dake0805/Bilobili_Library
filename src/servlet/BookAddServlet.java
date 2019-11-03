@@ -2,7 +2,13 @@ package servlet;
 
 import dao.BookCategoryDao;
 import dao.BookDao;
+import dao.BookDetailDao;
+import entity.Book;
 import entity.BookCategory;
+import entity.BookDetail;
+import jdk.nashorn.tools.Shell;
+import utils.BarCodeUtil;
+import utils.BuiltCopyID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,51 +22,61 @@ import java.util.List;
 @WebServlet(name = "BookAddServlet")
 public class BookAddServlet extends HttpServlet {
     BookCategoryDao bookCategoryDao = new BookCategoryDao();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            request.setCharacterEncoding("ytf-8");
-            response.setContentType("text/html;charset=utf-8");
-            String  BookNumberString=(String)request.getParameter("BookNumber");
-            int BookNumber=Integer.parseInt(BookNumberString);
-            String Name =(String)request.getParameter("name");
-            String Press =(String)request.getParameter("press");
-            String Price =(String)request.getParameter("price");
-            String Author =(String)request.getParameter("author");
-            String Category =(String)request.getParameter("category");
-            //数据类型可能不对
-            String AmountString=(String) request.getParameter("amount");
-            int Amount=Integer.parseInt(AmountString);
-            String Floor=(String)request.getParameter("floor");
-            String Shelf=(String)request.getParameter("shelf");
-            String AreaCode=(String)request.getParameter("AreaCode");
-            String Description =(String)request.getParameter("description");
-            BookDao bookDao=new BookDao();
-            boolean exit=bookDao.isExitInDB(BookNumber);
-            if(exit){
-                response.sendRedirect("book_add.jsp?info=error");
-            }else{
-                bookDao.addBook(BookNumber,Name,Press,Price,Author,Category
-                        ,Amount,Floor,Shelf,AreaCode,Description);
-                response.sendRedirect("book_add.jsp?info=success");
+        request.setCharacterEncoding("utf-8");
+        response.setContentType("text/html;charset=utf-8");
+        String BookNumber = (String) request.getParameter("BookNumber");
+        String Name = (String) request.getParameter("name");
+        String Press = (String) request.getParameter("press");
+        double Price = Double.parseDouble(request.getParameter("price"));
+        String Category = request.getParameter("category");
+        int Floor = bookCategoryDao.getFloor(Category);
+        String Shelf = bookCategoryDao.getShelf(Category);
+
+        String Author = (String) request.getParameter("author");
+        String Description = request.getParameter("description");
+        //数据类型可能不对
+        String AmountString = (String) request.getParameter("amount");
+        int Amount = Integer.parseInt(AmountString);
+
+        BookDao bookDao = new BookDao();
+        boolean exit = bookDao.isExitInDB(BookNumber);
+        if (exit) {
+            response.sendRedirect("book_add.jsp?info=error");
+        } else {
+            //在book中添加
+            bookDao.addBook(BookNumber, Name, Press, Price, Author, Category
+                    , Amount, Description);
+            ArrayList<String> copyIDs = BuiltCopyID.GetBuiltCopyID(BookNumber, Amount);
+
+            BookDetailDao bookDetailDao = new BookDetailDao();
+            //准备条形码页面
+            List<BookDetail> bookdetails = new ArrayList<BookDetail>();
+            for (int i = 0; i < copyIDs.size(); i++) {
+                //在bookdetail中添加
+                String AreaCode = bookCategoryDao.getAreaCode(Category);
+                bookDetailDao.addBookDeatil(BookNumber,copyIDs.get(i),AreaCode);
+                BookDetail bookDetail = new BookDetail();
+                bookDetail.setCopyID(copyIDs.get(i));
+                bookDetail.setShelf(Shelf);
+                bookDetail.setAreaCode(AreaCode);
+                bookDetail.setFloor(Floor);
+                String path = copyIDs.get(i) + ".png";
+                BarCodeUtil.GenerateBarCode(copyIDs.get(i),path,request);
+                bookDetail.setPath(path);
+                bookdetails.add(bookDetail);
             }
+            request.setAttribute("bookDetails",bookdetails);
 
-//        private String BookNumber;
-//        private String Name;
-//        private String Press;
-//        private String Price;
-//        private String Author;
-//        private String Category;
-//        private int Amount;
-//        private String Floor;
-//        private String Shelf;
-//        private String AreaCode;
-//        private String Description;
-
+            request.getRequestDispatcher("added_book_detail.jsp").forward(request,response);
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<BookCategory> bookCategories = bookCategoryDao.getCategories();
-        request.setAttribute("bookCategories",bookCategories);
-        request.getRequestDispatcher("book_add.jsp").forward(request,response);
+        List<BookCategory> bookCategories = bookCategoryDao.getBookCategories();
+        request.setAttribute("bookCategories", bookCategories);
+        request.getRequestDispatcher("book_add.jsp").forward(request, response);
     }
 }

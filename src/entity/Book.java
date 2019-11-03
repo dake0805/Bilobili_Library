@@ -1,38 +1,75 @@
 package entity;
 
 public class Book {
-    private int BookNumber;
+    private String BookNumber;
     private String Name;
     private String Press;
-    private String Price;
+    private double Price;
     private String Author;
     private String Category;
     private int Amount;
-    private String Floor;
-    private String Shelf;
-    private String AreaCode;
     private String Description;
 
+    public int getFloor() {
+        return Floor;
+    }
+
+    public void setFloor(int floor) {
+        Floor = floor;
+    }
+
+    public String getShelf() {
+        return Shelf;
+    }
+
+    public void setShelf(String shelf) {
+        Shelf = shelf;
+    }
+
+    //不屬於book屬性
+    private int Floor;
+    private String Shelf;
+
     public Book() {
-        this.BookNumber =0 ;
+        this.BookNumber = "null";
         this.Name = "null";
         this.Press = "null";
-        this.Price = "null";
+        this.Price = 0;
         this.Author = "null";
         this.Category = "null";
         this.Amount = 0;
-        this.Floor = "null";
-        this.Shelf = "null";
-        this.AreaCode="null";
-        this.Description="null";
+        this.Description = "null";
     }
 
+    public Book(String bookNumber, String name, String press, double price, String author, String category, int amount, String description) {
+        this.BookNumber = bookNumber;
+        this.Name = name;
+        this.Press = press;
+        this.Price = price;
+        this.Author = author;
+        this.Category = category;
+        this.Amount = amount;
+        this.Description = description;
+    }
 
-    public int getBookNumber() {
+    public Book(String bookNumber, String name, String press, double price, String author, String category, int amount, String description,int Floor,String Shelf) {
+        this.BookNumber = bookNumber;
+        this.Name = name;
+        this.Press = press;
+        this.Price = price;
+        this.Author = author;
+        this.Category = category;
+        this.Amount = amount;
+        this.Description = description;
+        this.Floor = Floor;
+        this.Shelf = Shelf;
+    }
+
+    public String getBookNumber() {
         return BookNumber;
     }
 
-    public void setBookNumber(int bookNumber) {
+    public void setBookNumber(String bookNumber) {
         BookNumber = bookNumber;
     }
 
@@ -52,11 +89,11 @@ public class Book {
         Press = press;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return Price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         Price = price;
     }
 
@@ -84,29 +121,6 @@ public class Book {
         Amount = amount;
     }
 
-    public String getFloor() {
-        return Floor;
-    }
-
-    public void setFloor(String floor) {
-        Floor = floor;
-    }
-
-    public String getShelf() {
-        return Shelf;
-    }
-
-    public void setShelf(String shelf) {
-        Shelf = shelf;
-    }
-
-    public String getAreaCode() {
-        return AreaCode;
-    }
-
-    public void setAreaCode(String areaCode) {
-        AreaCode = areaCode;
-    }
 
     public String getDescription() {
         return Description;
